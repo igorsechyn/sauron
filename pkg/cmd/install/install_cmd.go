@@ -38,19 +38,19 @@ func NewCmd(application app.App) cmd.Command {
 	return scobra.NewCommand(installCmd)
 }
 
-func getInstallOptions(flags *flag.FlagSet, pluginName string) (plugin.InstallOptions, error) {
+func getInstallOptions(flags *flag.FlagSet, pluginName string) (plugin.Info, error) {
 	url, err := flags.GetString("url")
 	if err != nil {
-		return plugin.InstallOptions{}, err
+		return plugin.Info{}, err
 	}
 	version, err := flags.GetString("version")
 	if err != nil {
-		return plugin.InstallOptions{}, err
+		return plugin.Info{}, err
 	}
 	shortDescription := getFlagOrDefault(flags, "short", pluginName)
 	longDescription := getFlagOrDefault(flags, "long", pluginName)
 
-	return plugin.InstallOptions{
+	return plugin.Info{
 		ShortDescription: shortDescription,
 		LongDescription:  longDescription,
 		PluginName:       pluginName,

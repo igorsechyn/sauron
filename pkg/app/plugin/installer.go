@@ -1,6 +1,6 @@
 package plugin
 
-type InstallOptions struct {
+type Info struct {
 	PluginName       string
 	Version          string
 	URL              string
@@ -9,5 +9,5 @@ type InstallOptions struct {
 }
 
 type Installer interface {
-	Install(options InstallOptions) error
+	Install(pluginInfo Info) error
 }

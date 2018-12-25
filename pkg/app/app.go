@@ -3,11 +3,18 @@ package app
 import (
 	"io"
 
+	"github.com/igorsechyn/sauron/pkg/app/files"
+
+	"github.com/igorsechyn/sauron/pkg/app/metadata"
+
 	"github.com/igorsechyn/sauron/pkg/app/plugin"
+	"github.com/igorsechyn/sauron/pkg/app/plugin/http"
 )
 
 type Boundaries struct {
 	ConsoleWriter io.Writer
+	Metadata      metadata.Metadata
+	FileSystem    files.FileSystem
 }
 
 type UserOptions struct {
@@ -33,5 +40,6 @@ func New(config UserOptions, boundaries Boundaries) App {
 		ShortDescription: config.ShortDescription,
 		LongDescription:  config.LongDescription,
 		Version:          config.Version,
+		Installer:        &http.PluginInstaller{Metadata: boundaries.Metadata, FileSystem: boundaries.FileSystem},
 	}
 }

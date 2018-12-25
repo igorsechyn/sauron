@@ -9,13 +9,14 @@ type MockMetadata struct {
 	mock.Mock
 }
 
-func (mock *MockMetadata) Get() metadata.Info {
-	args := mock.Called()
+func (mockMetadata *MockMetadata) Get() metadata.Info {
+	args := mockMetadata.Called()
 	return args.Get(0).(metadata.Info)
 }
 
-func (mock *MockMetadata) GivenGetReturns(info metadata.Info) {
-	mock.On("Get").Return(info)
+func (mockMetadata *MockMetadata) GivenGetReturns(info metadata.Info) {
+	mockMetadata.ExpectedCalls = []*mock.Call{}
+	mockMetadata.On("Get").Return(info)
 }
 
 func NewMockMetadata() *MockMetadata {

@@ -6,7 +6,7 @@ import (
 	"github.com/igorsechyn/sauron/pkg/cli"
 )
 
-func WhenCliCommandIsInvoked(allMocks *mocks.MockBoundaries, userOptions app.UserOptions, args ...string) error {
+func WhenCliCommandIsInvoked(allMocks *mocks.Mocks, userOptions app.UserOptions, args ...string) error {
 	application := app.App{
 		CliName:          userOptions.CliName,
 		LongDescription:  userOptions.LongDescription,
