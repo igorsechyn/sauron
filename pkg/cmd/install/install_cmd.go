@@ -19,7 +19,7 @@ func NewCmd(application app.App) cmd.Command {
 			if err != nil {
 				return err
 			}
-			return application.Installer.Install(installOptions)
+			return application.PluginService.Install(installOptions)
 		},
 	}
 

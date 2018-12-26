@@ -3,10 +3,10 @@ package mocks
 import "github.com/igorsechyn/sauron/pkg/app"
 
 type Mocks struct {
-	ConsoleWriter   *MockConsoleWriter
-	Metadata        *MockMetadata
-	PluginInstaller *MockPluginInstaller
-	FileSystem      *MockFileSystem
+	ConsoleWriter *MockConsoleWriter
+	Metadata      *MockMetadata
+	PluginService *MockPluginService
+	FileSystem    *MockFileSystem
 }
 
 func (allMocks *Mocks) ToAppBoundaries() app.Boundaries {
@@ -19,9 +19,9 @@ func (allMocks *Mocks) ToAppBoundaries() app.Boundaries {
 
 func InitAllMocks() *Mocks {
 	return &Mocks{
-		ConsoleWriter:   NewMockConsoleWriter(),
-		Metadata:        NewMockMetadata(),
-		PluginInstaller: NewMockPluginInstaller(),
-		FileSystem:      NewMockFileSystem(),
+		ConsoleWriter: NewMockConsoleWriter(),
+		Metadata:      NewMockMetadata(),
+		PluginService: NewMockPluginService(),
+		FileSystem:    NewMockFileSystem(),
 	}
 }

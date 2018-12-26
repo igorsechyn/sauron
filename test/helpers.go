@@ -13,7 +13,7 @@ func WhenCliCommandIsInvoked(allMocks *mocks.Mocks, userOptions app.UserOptions,
 		ShortDescription: userOptions.ShortDescription,
 		Version:          userOptions.Version,
 		ConsoleWriter:    allMocks.ConsoleWriter,
-		Installer:        allMocks.PluginInstaller,
+		PluginService:    allMocks.PluginService,
 	}
 	someCli := cli.NewWithApp(application)
 	return someCli.RunWithArgs(args...)

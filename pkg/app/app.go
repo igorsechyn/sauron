@@ -8,7 +8,6 @@ import (
 	"github.com/igorsechyn/sauron/pkg/app/metadata"
 
 	"github.com/igorsechyn/sauron/pkg/app/plugin"
-	"github.com/igorsechyn/sauron/pkg/app/plugin/http"
 )
 
 type Boundaries struct {
@@ -26,7 +25,7 @@ type UserOptions struct {
 
 type App struct {
 	ConsoleWriter    io.Writer
-	Installer        plugin.Installer
+	PluginService    plugin.Service
 	CliName          string
 	ShortDescription string
 	LongDescription  string
@@ -40,6 +39,6 @@ func New(config UserOptions, boundaries Boundaries) App {
 		ShortDescription: config.ShortDescription,
 		LongDescription:  config.LongDescription,
 		Version:          config.Version,
-		Installer:        &http.PluginInstaller{Metadata: boundaries.Metadata, FileSystem: boundaries.FileSystem},
+		PluginService:    plugin.NewService(boundaries.Metadata, boundaries.FileSystem),
 	}
 }

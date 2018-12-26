@@ -1,12 +1,11 @@
-package http_test
+package plugin_test
 
 import (
 	"testing"
 
-	"github.com/igorsechyn/sauron/pkg/app/metadata"
-
 	"github.com/igorsechyn/sauron/mocks"
 	"github.com/igorsechyn/sauron/pkg/app"
+	"github.com/igorsechyn/sauron/pkg/app/metadata"
 	"github.com/igorsechyn/sauron/pkg/app/plugin"
 )
 
@@ -24,7 +23,7 @@ func version(version string) installOption {
 	}
 }
 
-func whenInstallAPluginIsInvoked(allMocks *mocks.Mocks, options ...installOption) {
+func whenInstallPluginIsInvoked(allMocks *mocks.Mocks, options ...installOption) {
 	pluginInfo := plugin.Info{
 		PluginName:       "default-plugin-name",
 		LongDescription:  "default-long-description",
@@ -38,14 +37,14 @@ func whenInstallAPluginIsInvoked(allMocks *mocks.Mocks, options ...installOption
 	}
 
 	app := app.New(app.UserOptions{}, allMocks.ToAppBoundaries())
-	app.Installer.Install(pluginInfo)
+	app.PluginService.Install(pluginInfo)
 }
 
 func TestInstall(t *testing.T) {
 	t.Run("it should call metadata service", func(t *testing.T) {
 		allMocks := mocks.InitAllMocks()
 
-		whenInstallAPluginIsInvoked(allMocks)
+		whenInstallPluginIsInvoked(allMocks)
 
 		allMocks.Metadata.AssertCalled(t, "Get")
 	})
@@ -54,7 +53,7 @@ func TestInstall(t *testing.T) {
 		allMocks := mocks.InitAllMocks()
 		allMocks.Metadata.GivenGetReturns(metadata.Info{HomeDir: "/usr/some/", Arch: "amd64", Os: "darwin"})
 
-		whenInstallAPluginIsInvoked(allMocks, pluginName("some-plugin"), version("1.0.1"))
+		whenInstallPluginIsInvoked(allMocks, pluginName("some-plugin"), version("1.0.1"))
 
 		allMocks.FileSystem.AssertCalled(t, "Exists", "/usr/some/.sauron/cache/darwin/amd64/some-plugin/1.0.1/some-plugin")
 	})

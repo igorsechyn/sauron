@@ -71,7 +71,7 @@ func TestInstall_Command(t *testing.T) {
 
 		test.WhenCliCommandIsInvoked(allMocks, app.UserOptions{}, "install", "plugin-name", "--url", "http://some.url", "--version", "0.1.0")
 
-		allMocks.PluginInstaller.AssertCalled(t, "Install", plugin.Info{
+		allMocks.PluginService.AssertCalled(t, "Install", plugin.Info{
 			ShortDescription: "plugin-name", LongDescription: "plugin-name", PluginName: "plugin-name", URL: "http://some.url", Version: "0.1.0",
 		})
 	})
@@ -84,14 +84,14 @@ func TestInstall_Command(t *testing.T) {
 			app.UserOptions{},
 			"install", "plugin-name", "--url", "http://some.url", "--version", "0.1.0", "--short", "short description", "--long", "long description")
 
-		allMocks.PluginInstaller.AssertCalled(t, "Install", plugin.Info{
+		allMocks.PluginService.AssertCalled(t, "Install", plugin.Info{
 			ShortDescription: "short description", LongDescription: "long description", PluginName: "plugin-name", URL: "http://some.url", Version: "0.1.0",
 		})
 	})
 
 	t.Run("it should return an error, if installing plugin fails", func(t *testing.T) {
 		allMocks := mocks.InitAllMocks()
-		allMocks.PluginInstaller.GivenInstallFails(fmt.Errorf("could not find plugin"))
+		allMocks.PluginService.GivenInstallFails(fmt.Errorf("could not find plugin"))
 
 		err := test.WhenCliCommandIsInvoked(allMocks, app.UserOptions{}, "install", "plugin-name", "--url", "http://some.url", "--version", "0.1.0")
 
