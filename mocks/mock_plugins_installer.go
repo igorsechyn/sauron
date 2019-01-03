@@ -15,11 +15,12 @@ func (mockService *MockPluginService) Install(info plugin.Info) error {
 }
 
 func (mockService *MockPluginService) GivenInstallSucceeds() {
+	mockService.ExpectedCalls = getCallsWithoutMethod(mockService.ExpectedCalls, "Install")
 	mockService.On("Install", mock.AnythingOfType("plugin.Info")).Return(nil)
 }
 
 func (mockService *MockPluginService) GivenInstallFails(err error) {
-	mockService.ExpectedCalls = []*mock.Call{}
+	mockService.ExpectedCalls = getCallsWithoutMethod(mockService.ExpectedCalls, "Install")
 	mockService.On("Install", mock.AnythingOfType("plugin.Info")).Return(err)
 }
 

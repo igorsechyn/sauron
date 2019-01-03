@@ -15,7 +15,7 @@ func (mockMetadata *MockMetadata) Get() metadata.Info {
 }
 
 func (mockMetadata *MockMetadata) GivenGetReturns(info metadata.Info) {
-	mockMetadata.ExpectedCalls = []*mock.Call{}
+	mockMetadata.ExpectedCalls = getCallsWithoutMethod(mockMetadata.ExpectedCalls, "Get")
 	mockMetadata.On("Get").Return(info)
 }
 

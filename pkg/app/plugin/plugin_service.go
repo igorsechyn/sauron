@@ -1,7 +1,7 @@
 package plugin
 
 import (
-	"path"
+	"github.com/igorsechyn/sauron/pkg/app/http"
 
 	"github.com/igorsechyn/sauron/pkg/app/files"
 	"github.com/igorsechyn/sauron/pkg/app/metadata"
@@ -22,18 +22,24 @@ type Service interface {
 type service struct {
 	metadata   metadata.Metadata
 	fileSystem files.FileSystem
+	httpClient http.Client
+	paths      *Paths
 }
 
-func NewService(metadata metadata.Metadata, fileSystem files.FileSystem) Service {
+func NewService(paths *Paths, fileSystem files.FileSystem, httpClient http.Client) Service {
 	return &service{
-		metadata:   metadata,
 		fileSystem: fileSystem,
+		httpClient: httpClient,
+		paths:      paths,
 	}
 }
 
 func (service *service) Install(info Info) error {
-	meta := service.metadata.Get()
-	path := path.Join(meta.HomeDir, ".sauron", "cache", meta.Os, meta.Arch, info.PluginName, info.Version, info.PluginName)
-	service.fileSystem.Exists(path)
+	pluginPath := service.paths.GetPluginPath(info)
+	service.fileSystem.Exists(pluginPath)
+	data, _ := service.httpClient.Get(info.URL + "/" + service.paths.GetArchiveName(info))
+	defer data.Close()
+	pluginCachePath := service.paths.GetCachePath(info)
+	service.fileSystem.Save(pluginCachePath, data)
 	return nil
 }

@@ -3,6 +3,8 @@ package app
 import (
 	"io"
 
+	"github.com/igorsechyn/sauron/pkg/app/http"
+
 	"github.com/igorsechyn/sauron/pkg/app/files"
 
 	"github.com/igorsechyn/sauron/pkg/app/metadata"
@@ -14,6 +16,7 @@ type Boundaries struct {
 	ConsoleWriter io.Writer
 	Metadata      metadata.Metadata
 	FileSystem    files.FileSystem
+	HttpClient    http.Client
 }
 
 type UserOptions struct {
@@ -33,12 +36,15 @@ type App struct {
 }
 
 func New(config UserOptions, boundaries Boundaries) App {
+	paths := &plugin.Paths{
+		Metadata: boundaries.Metadata,
+	}
 	return App{
 		ConsoleWriter:    boundaries.ConsoleWriter,
 		CliName:          config.CliName,
 		ShortDescription: config.ShortDescription,
 		LongDescription:  config.LongDescription,
 		Version:          config.Version,
-		PluginService:    plugin.NewService(boundaries.Metadata, boundaries.FileSystem),
+		PluginService:    plugin.NewService(paths, boundaries.FileSystem, boundaries.HttpClient),
 	}
 }
