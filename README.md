@@ -13,11 +13,11 @@ go get github.com/igorsechyn/httptest-interaction-listener
 ```
 
 ## Design
-We often find work environments with multiple CLIs provided by different teams for different purposes. Different CLIs may use different package managers and may require specific runtime environments. Creating a monolithic CLI would put too much burden on dev experience. `Sauron`'s idea is to provide a framework for a generic CLI, which allows composing existing CLI under one umbrella. The only requirement is to package existing CLIs as executables and provide them for download.
+We often find work environments with multiple CLIs provided by different teams for different purposes. Different CLIs may use different package managers and may require specific runtime environments. Creating a monolithic CLI would put too much burden on dev experience. `Sauron`'s idea is to provide a framework for a generic CLI, which allows composing existing CLIs under one umbrella. The only requirement is to package existing CLIs as executables and provide them for download.
 
 Out of the box the CLI provides only two commands `version` and `install`. 
 
-`install` command takes the name of a plugin, URL location, where executable can be downloaded, and the version (see further for repository layout of executables). After successfully downloading the executable and putting it in `~/.sauron/cache/<os>/<platform>/<version>/<plugin-name>`, the framework will register additional command under `<plugin-name>` and delegate calls to the downloaded executable. It will also write a local manifest file with a list of installed plugins. This manifest file will only be loaded, when the cli is run from that directory. It is also possible to provide a global manifest file under `HOME` directory or when compiling the CLI
+`install` command takes the name of a plugin, URL location, where executable can be downloaded, and the version (see further for repository layout of executables). After successfully downloading the executable and putting it in `~/.sauron/cache/<plugin-name>/<version>`, the framework will register additional command under `<plugin-name>` and delegate calls to the downloaded executable. It will also write a local manifest file with a list of installed plugins. This manifest file will only be loaded, when the cli is run from that directory. It is also possible to provide a global manifest file under `HOME` directory or when compiling the CLI
 
 ### Manifest
 Manifest file contains information about available plugins. Manifest can be provided in three different ways:
