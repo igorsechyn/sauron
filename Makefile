@@ -11,6 +11,7 @@ install:
 	GO111MODULE=off go get -u gopkg.in/alecthomas/gometalinter.v2
 	gometalinter.v2 --install
 	GO111MODULE=on go mod download
+	GO111MODULE=on go mod vendor
 	GO111MODULE=on go mod tidy
 
 test:
