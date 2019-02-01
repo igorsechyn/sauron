@@ -15,7 +15,7 @@ func NewCmd(application app.App) cmd.Command {
 		Short: "Installs additional plugins and records them in the local manifest",
 		Args:  cobra.ExactArgs(1),
 		RunE: func(cmd *cobra.Command, args []string) error {
-			installOptions, err := getInstallOptions(cmd.Flags(), args[0])
+			installOptions, err := getInstallInfo(cmd.Flags(), args[0])
 			if err != nil {
 				return err
 			}
@@ -38,7 +38,7 @@ func NewCmd(application app.App) cmd.Command {
 	return scobra.NewCommand(installCmd)
 }
 
-func getInstallOptions(flags *flag.FlagSet, pluginName string) (plugin.Info, error) {
+func getInstallInfo(flags *flag.FlagSet, pluginName string) (plugin.Info, error) {
 	url, err := flags.GetString("url")
 	if err != nil {
 		return plugin.Info{}, err

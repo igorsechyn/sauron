@@ -10,11 +10,23 @@ import (
 	"github.com/igorsechyn/sauron/pkg/cmd/version"
 )
 
-func New(userOptions app.UserOptions) *Cli {
+type CliOptions struct {
+	CliName          string
+	ShortDescription string
+	LongDescription  string
+	Version          string
+}
+
+func New(options CliOptions) *Cli {
 	productionBoundaries := app.Boundaries{
 		ConsoleWriter: os.Stdout,
 	}
-	return NewWithBoundaries(userOptions, productionBoundaries)
+	return NewWithBoundaries(app.UserOptions{
+		CliName:          options.CliName,
+		LongDescription:  options.LongDescription,
+		ShortDescription: options.ShortDescription,
+		Version:          options.Version,
+	}, productionBoundaries)
 }
 
 func NewWithBoundaries(userOptions app.UserOptions, boundaries app.Boundaries) *Cli {
