@@ -9,7 +9,7 @@
 Get the `sauron` as a dependency
 
 ```
-go get github.com/igorsechyn/httptest-interaction-listener
+go get github.com/igorsechyn/sauron
 ```
 
 ## Design
